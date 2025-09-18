@@ -5,6 +5,7 @@ import io
 import base64
 from langchain_core.messages import HumanMessage
 from agent.agent import agent
+from agent.post_process import post_process_llm_response
 import logging
 import os # Import os
 from dotenv import load_dotenv # Import load_dotenv
@@ -52,7 +53,7 @@ async def process_image(image: UploadFile = File(...)):
         # Extract the content from the agent's response
         # Assuming the agent's response is a dict with a 'messages' key,
         # and the last message contains the final answer.
-        final_response_content = agent_response["messages"][-1].content
+        final_response_content = post_process_llm_response(agent_response["messages"][-1].content)
         logger.info("Agent response successfully retrieved.")
 
         return JSONResponse(content={

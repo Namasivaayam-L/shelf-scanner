@@ -1,5 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 import io
 import base64
@@ -11,8 +12,17 @@ import os # Import os
 from dotenv import load_dotenv # Import load_dotenv
 
 load_dotenv() # Load environment variables from .env file
-
+ 
 app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # Frontend origin
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(filename)s:%(lineno)d - %(message)s')
@@ -56,9 +66,110 @@ async def process_image(image: UploadFile = File(...)):
         final_response_content = post_process_llm_response(agent_response["messages"][-1].content)
         logger.info("Agent response successfully retrieved.")
 
+        # Transform the response to match the client's expected format
+        books = []
+        if isinstance(final_response_content, dict):
+            # Generate mock book data with IDs, descriptions, and cover images
+            id_counter = 1
+            for title, description in final_response_content.items():
+                books.append({
+                    "id": id_counter,
+                    "title": title,
+                    "description": description,
+                    "cover": f"https://picsum.photos/200/300?random={id_counter}"  # Mock cover image
+                })
+                id_counter += 1
+        else:
+            # Handle error case
+            return JSONResponse(content={"status": "error", "message": "Invalid response format"}, status_code=500)
+
         return JSONResponse(content={
-            "response": final_response_content,
+            "books": books
         })
     except Exception as e:
         logger.error(f"Error processing image: {e}", exc_info=True)
         return JSONResponse(content={"status": "error", "message": str(e)}, status_code=500)
+
+# Mock data endpoints
+@app.get("/books/{book_id}/recommendations")
+async def get_book_recommendations(book_id: int):
+    """
+    Returns mock recommendations for a specific book.
+    """
+    # Mock recommendations data
+    recommendations = [
+        {
+            "id": 101,
+            "title": "Similar Thriller Novel",
+            "description": "Another thrilling mystery that fans of detective stories will love.",
+            "cover": "https://picsum.photos/200/300?random=101"
+        },
+        {
+            "id": 102,
+            "title": "Crime and Punishment",
+            "description": "A classic psychological thriller exploring the mind of a criminal.",
+            "cover": "https://picsum.photos/200/300?random=102"
+        },
+        {
+            "id": 103,
+            "title": "The Girl with the Dragon Tattoo",
+            "description": "A modern Scandinavian thriller with complex characters and intricate plot.",
+            "cover": "https://picsum.photos/200/300?random=103"
+        }
+    ]
+    
+    return JSONResponse(content={
+        "book_id": book_id,
+        "recommendations": recommendations
+    })
+
+@app.post("/books/{book_id}/save")
+async def save_book_to_library(book_id: int):
+    """
+    Saves a book to the user's library.
+    """
+    return JSONResponse(content={
+        "status": "success",
+        "message": f"Book with ID {book_id} saved to library"
+    })
+
+@app.post("/books/save-all")
+async def save_all_books():
+    """
+    Saves all books to the user's library.
+    """
+    return JSONResponse(content={
+        "status": "success",
+        "message": "All books saved to library"
+    })
+
+@app.get("/books/recommendations")
+async def get_all_recommendations():
+    """
+    Returns mock recommendations for all books.
+    """
+    # Mock recommendations data
+    recommendations = [
+        {
+            "id": 201,
+            "title": "Bestselling Fiction",
+            "description": "A collection of contemporary bestsellers across genres.",
+            "cover": "https://picsum.photos/200/300?random=201"
+        },
+        {
+            "id": 202,
+            "title": "Award Winners",
+            "description": "Books that have won prestigious literary awards recently.",
+            "cover": "https://picsum.photos/200/300?random=202"
+        },
+        {
+            "id": 203,
+            "title": "Hidden Gems",
+            "description": "Underrated books that deserve more recognition.",
+            "cover": "https://picsum.photos/200/300?random=203"
+        }
+    ]
+    
+    return JSONResponse(content={
+        "recommendations": recommendations
+    })

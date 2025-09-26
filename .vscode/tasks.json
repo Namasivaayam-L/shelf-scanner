@@ -1,0 +1,56 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Client Dev",
+            "type": "shell",
+            "command": "npm run dev",
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "group": "shelf-scanner",
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/client"
+            }
+        },
+        {
+            "label": "Run Server Dev",
+            "type": "shell",
+            "command": "export GOOGLE_API_KEY=AIzaSyALAZD4JvcAMNAmF5JIaLrzX5fHKhVHhR4 && source .venv/bin/activate && fastapi dev main.py",
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "group": "shelf-scanner",
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/server"
+            }
+        },
+        {
+            "label": "Run Client and Server",
+            "type": "shell",
+            "command": "echo 'Starting Client and Server...'",
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "new",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "dependsOn": ["Run Client Dev", "Run Server Dev"]
+        }
+    ]
+}

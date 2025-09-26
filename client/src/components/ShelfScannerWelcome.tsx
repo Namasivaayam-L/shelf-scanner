@@ -2,8 +2,6 @@
 
 import { ShelfScannerHeader } from "@/components/ShelfScannerHeader";
 import { HeroSection } from "@/components/HeroSection";
-import { FeaturesSection } from "@/components/FeaturesSection";
-import { FooterNavigation } from "@/components/FooterNavigation";
 
 export function ShelfScannerWelcome() {
   const handleScanBookshelf = () => {
@@ -25,10 +23,8 @@ export function ShelfScannerWelcome() {
             onScanBookshelf={handleScanBookshelf}
             onExploreRecommendations={handleExploreRecommendations}
           />
-          <FeaturesSection />
         </main>
       </div>
-      <FooterNavigation />
     </div>
   );
 }

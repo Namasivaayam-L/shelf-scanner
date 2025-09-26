@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shelf Scanner</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#ec6d13",
+            "background-light": "#f8f7f6",
+            "background-dark": "#221810",
+            "text-light": "#1b130d",
+            "text-dark": "#f8f7f6",
+            "text-muted-light": "#9a6c4c",
+            "text-muted-dark": "#a19084"
+          },
+          fontFamily: {
+            "display": ["Manrope"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="max-w-md mx-auto">
+<header class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm">
+<div class="flex items-center justify-between p-4">
+<button class="text-text-light dark:text-text-dark">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold text-text-light dark:text-text-dark">Shelf Scanner</h1>
+<div class="w-8"></div> 
+</div>
+</header>
+<main class="p-4 pb-32">
+<h2 class="text-2xl font-bold text-text-light dark:text-text-dark mb-6">Identified Books</h2>
+<div class="space-y-6">
+<div class="bg-white/50 dark:bg-black/20 rounded-xl overflow-hidden shadow-sm border border-black/5 dark:border-white/5">
+<div class="flex items-center gap-4 p-4">
+<div class="flex-shrink-0 w-20 h-28 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 text-4xl">photo_camera</span>
+</div>
+<div class="flex-1">
+<h3 class="font-bold text-text-light dark:text-text-dark">The Silent Observer</h3>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark mt-1">A gripping thriller about a detective's pursuit of a serial killer.</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-px bg-black/5 dark:bg-white/5">
+<button class="w-full bg-background-light dark:bg-background-dark py-3 px-4 text-sm font-semibold text-primary hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">Get Recommendations</button>
+<button class="w-full bg-background-light dark:bg-background-dark py-3 px-4 text-sm font-semibold text-primary hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">Save to Library</button>
+</div>
+</div>
+<div class="bg-white/50 dark:bg-black/20 rounded-xl overflow-hidden shadow-sm border border-black/5 dark:border-white/5">
+<div class="flex items-center gap-4 p-4">
+<div class="flex-shrink-0 w-20 h-28 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 text-4xl">photo_camera</span>
+</div>
+<div class="flex-1">
+<h3 class="font-bold text-text-light dark:text-text-dark">Echoes of the Past</h3>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark mt-1">A historical fiction novel exploring a family's secrets across generations.</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-px bg-black/5 dark:bg-white/5">
+<button class="w-full bg-background-light dark:bg-background-dark py-3 px-4 text-sm font-semibold text-primary hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">Get Recommendations</button>
+<button class="w-full bg-background-light dark:bg-background-dark py-3 px-4 text-sm font-semibold text-primary hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">Save to Library</button>
+</div>
+</div>
+<div class="bg-white/50 dark:bg-black/20 rounded-xl overflow-hidden shadow-sm border border-black/5 dark:border-white/5">
+<div class="flex items-center gap-4 p-4">
+<div class="flex-shrink-0 w-20 h-28 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 text-4xl">photo_camera</span>
+</div>
+<div class="flex-1">
+<h3 class="font-bold text-text-light dark:text-text-dark">The Last Alchemist</h3>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark mt-1">A fantasy adventure following a young apprentice's quest for a legendary artifact.</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-px bg-black/5 dark:bg-white/5">
+<button class="w-full bg-background-light dark:bg-background-dark py-3 px-4 text-sm font-semibold text-primary hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">Get Recommendations</button>
+<button class="w-full bg-background-light dark:bg-background-dark py-3 px-4 text-sm font-semibold text-primary hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">Save to Library</button>
+</div>
+</div>
+</div>
+</main>
+<footer class="fixed bottom-0 left-0 right-0 p-4 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-t border-black/5 dark:border-white/5">
+<div class="max-w-md mx-auto">
+<div class="grid grid-cols-2 gap-4">
+<button class="w-full py-3 px-4 rounded-lg bg-primary/20 dark:bg-primary/30 text-primary text-sm font-bold">Save All</button>
+<button class="w-full py-3 px-4 rounded-lg bg-primary text-white text-sm font-bold">Recommendations for All</button>
+</div>
+</div>
+</footer>
+</div>
+
+</body></html>

@@ -1,5 +1,9 @@
 from pydantic import RootModel, Field
 from typing import Dict
+from logging_manager import get_logger
+
+logger = get_logger()
+logger.debug("Loading BookGistResponse schema")
 
 class BookGistResponse(RootModel[Dict[str, str]]):
     """
@@ -15,3 +19,5 @@ class BookGistResponse(RootModel[Dict[str, str]]):
         },
         description="A dictionary where keys are book titles and values are their one-liner gists."
     )
+
+logger.debug("BookGistResponse schema loaded successfully")

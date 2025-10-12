@@ -3,7 +3,10 @@ from langchain_core.messages import SystemMessage, AIMessage
 from agent.llm import gemini
 from agent.prompts.retrieve_prompts import read_md_file
 from agent.post_process import post_process_llm_response # Import the new post-process function
+from logging_manager import get_logger
 import json # Import json for converting dict to string
+
+logger = get_logger()
 
 # Load the system prompt content
 SYSTEM_PROMPT_CONTENT = read_md_file("sys_prompt.md")

@@ -1,10 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Check, PlusCircle, ThumbsUp, BookOpen, ArrowRight } from 'lucide-react';
+import { Book } from '../types';
+
 export function Recommendations() {
   const [step, setStep] = useState(1);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [checkedBooks, setCheckedBooks] = useState<number[]>([]);
   const [showRecommendations, setShowRecommendations] = useState(false);
+  const [recommendations, setRecommendations] = useState<Book[]>([]);
+  
+  // Load recommendations from local storage when component mounts
+  useEffect(() => {
+    const storedRecommendations = JSON.parse(localStorage.getItem('recommendations') || '[]');
+    if (storedRecommendations.length > 0) {
+      setRecommendations(storedRecommendations);
+      setShowRecommendations(true);
+    }
+  }, []);
+
   const genres = ['Fiction', 'Mystery', 'Science Fiction', 'Fantasy', 'Romance', 'Thriller', 'Historical Fiction', 'Biography', 'Self-Help', 'Business'];
   const popularBooks = [{
     id: 1,
@@ -38,25 +51,6 @@ export function Recommendations() {
     id: 8,
     title: 'The Four Winds',
     genre: 'Historical Fiction'
-  }];
-  const recommendations = [{
-    id: 1,
-    title: 'The Invisible Life of Addie LaRue',
-    gist: 'A woman makes a Faustian bargain to live forever but is cursed to be forgotten by everyone she meets',
-    similarity: 'Similar to The Midnight Library',
-    cover: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=200'
-  }, {
-    id: 2,
-    title: 'Klara and the Sun',
-    gist: 'An Artificial Friend observes the behavior of humans who come to browse the store while hoping to be chosen',
-    similarity: 'Similar to Project Hail Mary',
-    cover: 'https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=200'
-  }, {
-    id: 3,
-    title: 'The Last Thing He Told Me',
-    gist: "A woman searches for the truth about her husband's disappearance",
-    similarity: 'Similar to The Silent Patient',
-    cover: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=200'
   }];
   const handleGenreToggle = (genre: string) => {
     if (selectedGenres.includes(genre)) {
@@ -168,11 +162,8 @@ export function Recommendations() {
                   <h3 className="text-lg font-semibold text-foreground">
                     {book.title}
                   </h3>
-                  <p className="text-xs text-primary-600 dark:text-primary-400 mt-1">
-                    {book.similarity}
-                  </p>
                   <p className="text-sm text-muted-foreground mt-2 flex-1">
-                    {book.gist}
+                    {book.description}
                   </p>
                   <div className="flex justify-between mt-4">
                     <button className="text-sm py-1 px-3 bg-secondary text-secondary-foreground rounded hover:bg-secondary/80 dark:bg-secondary-800 dark:hover:bg-secondary-700">

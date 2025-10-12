@@ -1,27 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BookOpen, Trash2, ThumbsUp } from 'lucide-react';
+import { getRecommendations } from '../lib/api';
+import { BookWithGist } from '../types';
+
 export function SavedBooks() {
   const navigate = useNavigate();
-  // Mock data for demonstration
-  const savedBooks = [{
-    id: 1,
-    title: 'The Great Gatsby',
-    gist: 'A tale of wealth, love, and the American Dream in the Jazz Age',
-    cover: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=200'
-  }, {
-    id: 2,
-    title: 'To Kill a Mockingbird',
-    gist: 'A powerful examination of racial injustice and moral growth in the American South',
-    cover: 'https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=200'
-  }, {
-    id: 3,
-    title: '1984',
-    gist: 'A dystopian novel about totalitarianism, surveillance, and thought control',
-    cover: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=200'
-  }];
-  const handleGetRecommendations = () => {
-    navigate('/recommendations');
+  const [savedBooks, setSavedBooks] = useState<BookWithGist[]>([]);
+
+  // Load saved books from local storage when component mounts
+  useEffect(() => {
+    const storedBooks = JSON.parse(localStorage.getItem('savedBooks') || '[]');
+    setSavedBooks(storedBooks);
+  }, []);
+
+  const handleGetRecommendations = async () => {
+    try {
+      // Transform BookWithGist[] to Book[] for the API call
+      const booksForApi = savedBooks.map(book => ({
+        id: book.id,
+        title: book.title,
+        description: book.gist, // Use gist as description
+        cover: book.cover
+      }));
+      
+      // Get recommendations based on saved books
+      const response = await getRecommendations(booksForApi);
+      // Store recommendations in local storage
+      localStorage.setItem('recommendations', JSON.stringify(response.recommendations));
+      // Navigate to recommendations page
+      navigate('/recommendations');
+    } catch (error) {
+      console.error('Error getting recommendations:', error);
+      alert('Error getting recommendations. Please try again.');
+    }
+  };
+
+  const handleRemoveBook = (bookId: number) => {
+    // Remove book from saved books
+    const updatedBooks = savedBooks.filter(book => book.id !== bookId);
+    setSavedBooks(updatedBooks);
+    localStorage.setItem('savedBooks', JSON.stringify(updatedBooks));
+    alert('Book removed successfully!');
   };
   return <div className="w-full">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
@@ -44,7 +64,7 @@ export function SavedBooks() {
                   {book.gist}
                 </p>
                 <div className="flex justify-between mt-4">
-                  <button className="text-xs py-1 px-2 bg-secondary text-secondary-foreground rounded hover:bg-secondary/80 dark:bg-secondary-800 dark:hover:bg-secondary-700">
+                  <button className="text-xs py-1 px-2 bg-secondary text-secondary-foreground rounded hover:bg-secondary/80 dark:bg-secondary-800 dark:hover:bg-secondary-700" onClick={() => handleRemoveBook(book.id)}>
                     <Trash2 className="h-3 w-3 inline mr-1" />
                     Remove
                   </button>

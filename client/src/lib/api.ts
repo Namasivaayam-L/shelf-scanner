@@ -1,12 +1,12 @@
-import { Book } from '../types';
+import { Book } from '@/types';
+import logger from '@/lib/logger';
 
 export interface ProcessedImageResponse {
   books: Book[];
 }
 
-export interface BookRecommendationsResponse {
-  book_id: number;
- recommendations: Book[];
+export interface RecommendationsRequest {
+  books: Book[];
 }
 
 export interface RecommendationsResponse {
@@ -23,6 +23,8 @@ export interface ApiResponse<T> {
  * Process an image to extract book information
  */
 export const processImage = async (imageFile: File): Promise<ProcessedImageResponse> => {
+  logger.info(`Processing image: ${imageFile.name} (${imageFile.size} bytes)`);
+  
   const formData = new FormData();
   formData.append('image', imageFile);
 
@@ -34,111 +36,45 @@ export const processImage = async (imageFile: File): Promise<ProcessedImageRespo
 
     if (!response.ok) {
       const errorText = await response.text();
+      logger.error(`HTTP error processing image: ${response.status}, message: ${errorText}`);
       throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
     }
 
     const data = await response.json();
+    logger.info(`Successfully processed image, received ${data.books?.length || 0} books`);
     return data;
   } catch (error) {
-    console.error('Error processing image:', error);
+    logger.error('Error processing image:', error);
     throw error;
  }
 };
 
 /**
- * Get recommendations for a specific book
+ * Get recommendations based on provided books
  */
-export const getBookRecommendations = async (bookId: number): Promise<BookRecommendationsResponse> => {
-  try {
-    const response = await fetch(`http://localhost:8000/books/${bookId}/recommendations`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data;
- } catch (error) {
-      console.error('Error fetching book recommendations:', error);
-      throw error;
-  }
-};
-
-/**
- * Get all recommendations
- */
-export const getAllRecommendations = async (): Promise<RecommendationsResponse> => {
+export const getRecommendations = async (books: Book[]): Promise<RecommendationsResponse> => {
+  logger.info(`Getting recommendations for ${books.length} books`);
+  
   try {
     const response = await fetch('http://localhost:8000/books/recommendations', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data;
- } catch (error) {
-      console.error('Error fetching all recommendations:', error);
-      throw error;
-  }
-};
-
-/**
- * Save a book to the user's library
- */
-export const saveBook = async (bookId: number): Promise<ApiResponse<void>> => {
-  try {
-    const response = await fetch(`http://localhost:8000/books/${bookId}/save`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({ books }),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
+      logger.error(`HTTP error getting recommendations: ${response.status}, message: ${errorText}`);
       throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
     }
 
     const data = await response.json();
+    logger.info(`Successfully received ${data.recommendations?.length || 0} recommendations`);
     return data;
  } catch (error) {
-      console.error('Error saving book:', error);
-      throw error;
-  }
-};
-
-/**
- * Save all books to the user's library
- */
-export const saveAllBooks = async (): Promise<ApiResponse<void>> => {
- try {
-    const response = await fetch('http://localhost:8000/books/save-all', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-    }
-
-    const data = await response.json();
-    return data;
- } catch (error) {
-      console.error('Error saving all books:', error);
-      throw error;
+    logger.error('Error fetching recommendations:', error);
+    throw error;
   }
 };

@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Camera, Upload, Link as LinkIcon, Loader2 } from 'lucide-react';
-import { processImage } from '../lib/api';
-import { useBookContext } from '../contexts/BookContext';
-import { BookWithGist } from '../types';
+import { processImage } from '@/lib/api';
+import { useBookContext } from '@/contexts/BookContext';
+import { BookWithGist } from '@/types';
+import logger from '@/lib/logger';
 
 type ImageProcessingProps = {
   setShowResults?: (show: boolean) => void;
@@ -26,28 +27,33 @@ export function ImageProcessing({
 
   // Function to start the camera
   const startCamera = async () => {
+    logger.info('Starting camera for image capture');
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       setCameraStream(stream);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
       }
+      logger.debug('Camera stream started successfully');
     } catch (err) {
-      console.error('Error accessing camera:', err);
+      logger.error('Error accessing camera:', err);
       alert('Could not access the camera. Please ensure you have granted permission.');
     }
   };
 
   // Function to stop the camera
   const stopCamera = () => {
+    logger.info('Stopping camera');
     if (cameraStream) {
       cameraStream.getTracks().forEach(track => track.stop());
       setCameraStream(null);
     }
+    logger.debug('Camera stream stopped');
   };
 
   // Function to capture image from camera
   const captureImage = () => {
+    logger.info('Capturing image from camera');
     if (videoRef.current && canvasRef.current) {
       const context = canvasRef.current.getContext('2d');
       if (context) {
@@ -64,6 +70,7 @@ export function ImageProcessing({
           .then(blob => {
             const file = new File([blob], 'camera-capture.jpg', { type: 'image/jpeg' });
             setSelectedFile(file);
+            logger.debug('Image captured and converted to file');
           });
       }
     }
@@ -82,8 +89,9 @@ export function ImageProcessing({
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setSelectedFile(file);
+      logger.info(`File selected: ${file.name} (${file.size} bytes, type: ${file.type})`);
     }
- };
+  };
 
   const handleFileUpload = () => {
     if (fileInputRef.current) {
@@ -91,13 +99,17 @@ export function ImageProcessing({
     }
   };
 
-   const handleProcessImage = async () => {
+  const handleProcessImage = async () => {
+    logger.info(`Starting image processing for tab: ${activeTab}`);
+    
     if (activeTab === 'upload' && !selectedFile) {
+      logger.warn('No file selected for upload');
       alert('Please select an image file to upload');
       return;
     }
 
     if (activeTab === 'url' && !imageUrl) {
+      logger.warn('No URL entered');
       alert('Please enter an image URL');
       return;
     }
@@ -107,6 +119,7 @@ export function ImageProcessing({
       try {
         new URL(imageUrl);
       } catch (err) {
+        logger.warn('Invalid URL entered');
         alert('Please enter a valid image URL');
         return;
       }
@@ -116,6 +129,7 @@ export function ImageProcessing({
     if ((activeTab === 'upload' || activeTab === 'camera') && selectedFile) {
       const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
       if (!validImageTypes.includes(selectedFile.type)) {
+        logger.warn(`Invalid file type: ${selectedFile.type}`);
         alert('Please select a valid image file (JPEG, PNG, WebP, GIF)');
         return;
       }
@@ -123,11 +137,13 @@ export function ImageProcessing({
       // Check file size (max 10MB)
       const maxSize = 10 * 1024 * 1024; // 10MB
       if (selectedFile.size > maxSize) {
+        logger.warn(`File size exceeds limit: ${selectedFile.size} bytes`);
         alert('File size exceeds 10MB limit. Please select a smaller image.');
         return;
       }
     }
 
+    logger.debug('Starting image processing with validation passed');
     setIsProcessing(true);
     setLoading(true);
 
@@ -136,10 +152,12 @@ export function ImageProcessing({
       
       if (activeTab === 'upload' && selectedFile) {
         // Process uploaded file
+        logger.info('Processing uploaded file');
         response = await processImage(selectedFile);
       } else if (activeTab === 'url' && imageUrl) {
         // For URL processing, we'll need to download the image first
         // For now, we'll just pass the URL as a file blob
+        logger.info('Processing image from URL');
         const imageResponse = await fetch(imageUrl);
         const imageBlob = await imageResponse.blob();
         const imageFile = new File([imageBlob], 'image.jpg', { type: imageBlob.type });
@@ -147,13 +165,16 @@ export function ImageProcessing({
       } else if (activeTab === 'camera') {
         // For camera tab, use the captured image
         if (!selectedFile) {
+          logger.warn('No captured image available');
           alert('Please capture an image first');
           setIsProcessing(false);
           setLoading(false);
           return;
         }
+        logger.info('Processing captured camera image');
         response = await processImage(selectedFile);
       } else {
+        logger.warn('Invalid tab selection');
         alert('Please select an image file to upload');
         setIsProcessing(false);
         setLoading(false);
@@ -162,6 +183,7 @@ export function ImageProcessing({
 
       // Check if response is valid
       if (!response || !response.books) {
+        logger.error('Invalid response format from server');
         throw new Error('Invalid response format from server');
       }
 
@@ -172,14 +194,16 @@ export function ImageProcessing({
         gist: book.description
       }));
 
+      logger.info(`Received ${transformedBooks.length} books from server`);
       setBooks(transformedBooks);
       
       if (setShowResults) {
         setShowResults(true);
       }
+      logger.info('Navigating to results page');
       navigate('/results');
     } catch (error: any) {
-      console.error('Error processing image:', error);
+      logger.error('Error processing image:', error);
       let errorMessage = 'Error processing image. Please try again.';
       
       // Provide more specific error messages based on error type
@@ -195,6 +219,7 @@ export function ImageProcessing({
       
       alert(errorMessage);
     } finally {
+      logger.debug('Image processing completed, updating UI state');
       setIsProcessing(false);
       setLoading(false);
     }

@@ -1,16 +1,16 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
+import logging
 import io
 import base64
 from langchain_core.messages import HumanMessage
 from agent.agent import agent
 from agent.post_process import post_process_llm_response
-import logging
 import os # Import os
 from dotenv import load_dotenv # Import load_dotenv
+from logging_manager import get_logger
 
 load_dotenv() # Load environment variables from .env file
  
@@ -25,9 +25,7 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
-# Configure logging
-logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(filename)s:%(lineno)d - %(message)s')
-logger = logging.getLogger(__name__)
+logger = get_logger()
 
 @app.post("/process-image")
 async def process_image(image: UploadFile = File(...)):
@@ -91,86 +89,90 @@ async def process_image(image: UploadFile = File(...)):
         logger.error(f"Error processing image: {e}", exc_info=True)
         return JSONResponse(content={"status": "error", "message": str(e)}, status_code=500)
 
-# Mock data endpoints
-@app.get("/books/{book_id}/recommendations")
-async def get_book_recommendations(book_id: int):
+@app.post("/books/recommendations")
+async def get_recommendations(books: list):
     """
-    Returns mock recommendations for a specific book.
+    Returns recommendations based on provided books.
     """
-    # Mock recommendations data
-    recommendations = [
-        {
-            "id": 101,
-            "title": "Similar Thriller Novel",
-            "description": "Another thrilling mystery that fans of detective stories will love.",
-            "cover": "https://picsum.photos/200/300?random=101"
-        },
-        {
-            "id": 102,
-            "title": "Crime and Punishment",
-            "description": "A classic psychological thriller exploring the mind of a criminal.",
-            "cover": "https://picsum.photos/200/300?random=102"
-        },
-        {
-            "id": 103,
-            "title": "The Girl with the Dragon Tattoo",
-            "description": "A modern Scandinavian thriller with complex characters and intricate plot.",
-            "cover": "https://picsum.photos/200/300?random=103"
-        }
-    ]
-    
-    return JSONResponse(content={
-        "book_id": book_id,
-        "recommendations": recommendations
-    })
+    try:
+        logger.info(f"Generating recommendations for {len(books)} books")
+        
+        # Create a prompt for the LLM to generate recommendations
+        books_titles = [book['title'] for book in books]
+        logger.debug(f"Book titles for recommendations: {books_titles}")
+        
+        # Read the recommendation prompt from the file
+        with open('agent/prompts/recommendation_prompt.md', 'r') as file:
+            recommendation_prompt = file.read()
+        logger.debug("Loaded recommendation prompt from file")
+        
+        # Create the final prompt with the books list
+        final_prompt = f"{recommendation_prompt}\n\n**Input Books:**\n{books_titles}\n\n**Your Response:**"
+        
+        # Generate content using the model
+        logger.debug("Sending prompt to agent for recommendations")
+        agent_response = agent.invoke({"messages": [HumanMessage(content=final_prompt)]})
+        
+        # Extract the text response
+        recommendations = post_process_llm_response(agent_response["messages"][-1].content)
+        logger.info(f"Received {len(recommendations) if isinstance(recommendations, dict) else 'unknown'} recommendations")
+        
+        # Transform the response to match the client's expected format
+        recommended_books = []
+        id_counter = 1
+        if isinstance(recommendations, dict):
+            for title, description in recommendations.items():
+                recommended_books.append({
+                    "id": id_counter,
+                    "title": title,
+                    "description": description,
+                    "cover": f"https://picsum.photos/200/300?random={id_counter}"  # Mock cover image
+                })
+                id_counter += 1
+            logger.debug(f"Transformed {len(recommended_books)} recommendations to client format")
+        else:
+            logger.warning("Recommendations response is not in expected dictionary format")
+        
+        return JSONResponse(content={
+            "recommendations": recommended_books
+        })
+    except Exception as e:
+        logger.error(f"Error generating recommendations: {e}", exc_info=True)
+        return JSONResponse(content={"status": "error", "message": str(e)}, status_code=500)
 
-@app.post("/books/{book_id}/save")
-async def save_book_to_library(book_id: int):
+@app.post("/logging/level")
+async def set_logging_level(level: str):
     """
-    Saves a book to the user's library.
+    Set the logging level for the application.
+    Accepts 'info' or 'debug' as the level parameter.
     """
-    return JSONResponse(content={
-        "status": "success",
-        "message": f"Book with ID {book_id} saved to library"
-    })
+    try:
+        level = level.lower()
+        if level == 'info':
+            logger.set_level(logging.INFO)
+            logger.info("Logging level set to INFO")
+            return JSONResponse(content={"status": "success", "message": "Logging level set to INFO"})
+        elif level == 'debug':
+            logger.set_level(logging.DEBUG)
+            logger.info("Logging level set to DEBUG")
+            return JSONResponse(content={"status": "success", "message": "Logging level set to DEBUG"})
+        else:
+            return JSONResponse(content={"status": "error", "message": "Invalid logging level. Use 'info' or 'debug'."}, status_code=400)
+    except Exception as e:
+        logger.error(f"Error setting logging level: {e}", exc_info=True)
+        return JSONResponse(content={"status": "error", "message": str(e)}, status_code=500)
 
-@app.post("/books/save-all")
-async def save_all_books():
-    """
-    Saves all books to the user's library.
-    """
-    return JSONResponse(content={
-        "status": "success",
-        "message": "All books saved to library"
-    })
 
-@app.get("/books/recommendations")
-async def get_all_recommendations():
+@app.get("/logging/level")
+async def get_logging_level():
     """
-    Returns mock recommendations for all books.
+    Get the current logging level for the application.
     """
-    # Mock recommendations data
-    recommendations = [
-        {
-            "id": 201,
-            "title": "Bestselling Fiction",
-            "description": "A collection of contemporary bestsellers across genres.",
-            "cover": "https://picsum.photos/200/300?random=201"
-        },
-        {
-            "id": 202,
-            "title": "Award Winners",
-            "description": "Books that have won prestigious literary awards recently.",
-            "cover": "https://picsum.photos/200/300?random=202"
-        },
-        {
-            "id": 203,
-            "title": "Hidden Gems",
-            "description": "Underrated books that deserve more recognition.",
-            "cover": "https://picsum.photos/200/300?random=203"
-        }
-    ]
-    
-    return JSONResponse(content={
-        "recommendations": recommendations
-    })
+    try:
+        current_level = logger.get_current_level()
+        level_name = logging.getLevelName(current_level)
+        logger.info(f"Current logging level is {level_name}")
+        return JSONResponse(content={"level": level_name.lower()})
+    except Exception as e:
+        logger.error(f"Error getting logging level: {e}", exc_info=True)
+        return JSONResponse(content={"status": "error", "message": str(e)}, status_code=500)

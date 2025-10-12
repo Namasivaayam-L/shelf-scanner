@@ -1,34 +1,83 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BookOpen, Save, ThumbsUp } from 'lucide-react';
-import { useBookContext } from '../contexts/BookContext';
-import { saveBook, saveAllBooks } from '../lib/api';
+import { useBookContext } from '@/contexts/BookContext';
+import { getRecommendations } from '@/lib/api';
+import { BookWithGist } from '@/types';
+import logger from '@/lib/logger';
 
 export function BookResults() {
   const navigate = useNavigate();
   const { books } = useBookContext();
 
-  const handleGetRecommendations = () => {
-    navigate('/recommendations');
-  };
-
-  const handleSaveBook = async (bookId: number) => {
+  const handleGetRecommendations = async () => {
+    logger.info(`Getting recommendations for ${books.length} books`);
     try {
-      await saveBook(bookId);
-      alert('Book saved successfully!');
+      // Transform BookWithGist[] to Book[] for the API call
+      const booksForApi = books.map(book => ({
+        id: book.id,
+        title: book.title,
+        description: book.gist, // Use gist as description
+        cover: book.cover
+      }));
+      
+      // Get recommendations based on current books
+      const response = await getRecommendations(booksForApi);
+      // Store recommendations in local storage
+      localStorage.setItem('recommendations', JSON.stringify(response.recommendations));
+      logger.info(`Received ${response.recommendations.length} recommendations`);
+      // Navigate to recommendations page
+      navigate('/recommendations');
     } catch (error) {
-      console.error('Error saving book:', error);
-      alert('Error saving book. Please try again.');
+      logger.error('Error getting recommendations:', error);
+      alert('Error getting recommendations. Please try again.');
     }
   };
 
-  const handleSaveAllBooks = async () => {
-    try {
-      await saveAllBooks();
-      alert('All books saved successfully!');
-    } catch (error) {
-      console.error('Error saving all books:', error);
-      alert('Error saving books. Please try again.');
+  // Function to save books to local storage
+ const handleSaveBook = (book: BookWithGist) => {
+    logger.info(`Saving book: ${book.title}`);
+    // Get existing saved books from local storage
+    const savedBooks = JSON.parse(localStorage.getItem('savedBooks') || '[]');
+    
+    // Check if book is already saved
+    const isBookSaved = savedBooks.some((savedBook: any) => savedBook.id === book.id);
+    
+    if (!isBookSaved) {
+      // Add book to saved books
+      savedBooks.push(book);
+      localStorage.setItem('savedBooks', JSON.stringify(savedBooks));
+      logger.info(`Book saved successfully: ${book.title}`);
+      alert('Book saved successfully!');
+    } else {
+      logger.warn(`Book already saved: ${book.title}`);
+      alert('Book already saved!');
+    }
+  };
+
+  const handleSaveAllBooks = () => {
+    logger.info(`Attempting to save all ${books.length} books`);
+    if (books.length > 0) {
+      // Get existing saved books from local storage
+      const savedBooks = JSON.parse(localStorage.getItem('savedBooks') || '[]');
+      
+      // Add all current books that aren't already saved
+      const newBooks = books.filter(book => 
+        !savedBooks.some((savedBook: any) => savedBook.id === book.id)
+      );
+      
+      if (newBooks.length > 0) {
+        savedBooks.push(...newBooks);
+        localStorage.setItem('savedBooks', JSON.stringify(savedBooks));
+        logger.info(`Saved ${newBooks.length} new books`);
+        alert('All books saved successfully!');
+      } else {
+        logger.warn('All books were already saved');
+        alert('All books are already saved!');
+      }
+    } else {
+      logger.warn('No books available to save');
+      alert('No books to save!');
     }
   };
   return <div className="w-full">
@@ -60,7 +109,7 @@ export function BookResults() {
                   {book.gist}
                 </p>
                 <div className="flex justify-between mt-4">
-                  <button className="text-xs py-1 px-2 bg-secondary text-secondary-foreground rounded hover:bg-secondary/80 dark:bg-secondary-800 dark:hover:bg-secondary-700" onClick={() => handleSaveBook(book.id)}>
+                  <button className="text-xs py-1 px-2 bg-secondary text-secondary-foreground rounded hover:bg-secondary/80 dark:bg-secondary-800 dark:hover:bg-secondary-700" onClick={() => handleSaveBook(book)}>
                     <Save className="h-3 w-3 inline mr-1" />
                     Save
                   </button>

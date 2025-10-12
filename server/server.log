@@ -1,3 +1,39 @@
 nohup: ignoring input
 INFO:     Will watch for changes in these directories: ['/home/namachu/Documents/personal/shelf-scanner/server']
 ERROR:    [Errno 98] Address already in use
+2025-10-12 16:24:48 - INFO - logging_manager.py:58 - info - Test log message
+2025-10-12 22:34:59 - INFO - logging_manager.py:58 - info - Test log message
+2025-10-12 22:38:37 - INFO - logging_manager.py:58 - info - Received image: PXL_20251011_183356789.jpg (image/jpeg)
+2025-10-12 22:38:37 - INFO - logging_manager.py:58 - info - Image size: (4032, 3024) (width, height)
+2025-10-12 22:39:33 - INFO - logging_manager.py:58 - info - Agent response successfully retrieved.
+2025-10-12 23:10:29 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-12 23:10:29 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-12 23:10:55 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-12 23:10:55 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-12 23:10:55 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-12 23:11:42 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-12 23:11:42 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-12 23:11:42 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-12 23:12:19 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-12 23:12:19 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-12 23:12:19 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-12 23:12:54 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-12 23:12:54 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-12 23:12:54 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-12 23:12:54 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-12 23:14:09 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-12 23:14:09 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-12 23:14:09 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-12 23:14:09 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-12 23:15:59 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-12 23:15:59 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-12 23:15:59 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-12 23:15:59 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-12 23:16:04 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-12 23:16:04 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-12 23:16:04 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-12 23:16:04 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-12 23:16:18 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-12 23:16:18 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-12 23:16:18 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-12 23:16:18 - INFO - logging_manager.py:58 - info - Compiling agent

@@ -4,7 +4,7 @@
         {
             "label": "Run Client Dev",
             "type": "shell",
-            "command": "npm run dev",
+            "command": "npm run dev --host",
             "group": "build",
             "presentation": {
                 "echo": true,

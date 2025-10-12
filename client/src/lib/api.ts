@@ -33,7 +33,8 @@ export const processImage = async (imageFile: File): Promise<ProcessedImageRespo
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorText = await response.text();
+      throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
     }
 
     const data = await response.json();
@@ -41,7 +42,7 @@ export const processImage = async (imageFile: File): Promise<ProcessedImageRespo
   } catch (error) {
     console.error('Error processing image:', error);
     throw error;
-  }
+ }
 };
 
 /**
@@ -105,12 +106,13 @@ export const saveBook = async (bookId: number): Promise<ApiResponse<void>> => {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorText = await response.text();
+      throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
     }
 
     const data = await response.json();
     return data;
-  } catch (error) {
+ } catch (error) {
       console.error('Error saving book:', error);
       throw error;
   }
@@ -120,7 +122,7 @@ export const saveBook = async (bookId: number): Promise<ApiResponse<void>> => {
  * Save all books to the user's library
  */
 export const saveAllBooks = async (): Promise<ApiResponse<void>> => {
-  try {
+ try {
     const response = await fetch('http://localhost:8000/books/save-all', {
       method: 'POST',
       headers: {
@@ -129,12 +131,13 @@ export const saveAllBooks = async (): Promise<ApiResponse<void>> => {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorText = await response.text();
+      throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
     }
 
     const data = await response.json();
     return data;
-  } catch (error) {
+ } catch (error) {
       console.error('Error saving all books:', error);
       throw error;
   }

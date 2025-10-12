@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BookOpen, Save, ThumbsUp } from 'lucide-react';
 import { useBookContext } from '../contexts/BookContext';
+import { saveBook, saveAllBooks } from '../lib/api';
 
 export function BookResults() {
   const navigate = useNavigate();
@@ -10,11 +11,31 @@ export function BookResults() {
   const handleGetRecommendations = () => {
     navigate('/recommendations');
   };
+
+  const handleSaveBook = async (bookId: number) => {
+    try {
+      await saveBook(bookId);
+      alert('Book saved successfully!');
+    } catch (error) {
+      console.error('Error saving book:', error);
+      alert('Error saving book. Please try again.');
+    }
+  };
+
+  const handleSaveAllBooks = async () => {
+    try {
+      await saveAllBooks();
+      alert('All books saved successfully!');
+    } catch (error) {
+      console.error('Error saving all books:', error);
+      alert('Error saving books. Please try again.');
+    }
+  };
   return <div className="w-full">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
         <h1 className="text-3xl font-bold text-foreground">Scanned Books</h1>
         <div className="flex flex-col sm:flex-row gap-3">
-          <button className="py-2 px-4 bg-secondary text-secondary-foreground font-medium rounded-md hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 flex items-center justify-center sm:justify-start dark:bg-secondary-800 dark:hover:bg-secondary-700">
+          <button className="py-2 px-4 bg-secondary text-secondary-foreground font-medium rounded-md hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 flex items-center justify-center sm:justify-start dark:bg-secondary-800 dark:hover:bg-secondary-700" onClick={handleSaveAllBooks}>
             <Save className="h-4 w-4 mr-2" />
             Save All
           </button>
@@ -39,7 +60,7 @@ export function BookResults() {
                   {book.gist}
                 </p>
                 <div className="flex justify-between mt-4">
-                  <button className="text-xs py-1 px-2 bg-secondary text-secondary-foreground rounded hover:bg-secondary/80 dark:bg-secondary-800 dark:hover:bg-secondary-700">
+                  <button className="text-xs py-1 px-2 bg-secondary text-secondary-foreground rounded hover:bg-secondary/80 dark:bg-secondary-800 dark:hover:bg-secondary-700" onClick={() => handleSaveBook(book.id)}>
                     <Save className="h-3 w-3 inline mr-1" />
                     Save
                   </button>

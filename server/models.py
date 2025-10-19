@@ -1,13 +1,30 @@
-from pydantic import RootModel, Field
-from typing import Dict
+from pydantic import BaseModel, RootModel, Field
+from typing import Dict, List
 from logging_manager import get_logger
 
 logger = get_logger()
-logger.debug("Loading BookGistResponse schema")
+logger.debug("Loading models module")
 
-# NOTE: This model has been moved to server/models.py but is kept here for 
-# backward compatibility if other parts of the agent module are using it.
-# Consider importing from models.py instead in the future.
+# Model for recommendations request
+class RecommendationsRequest(BaseModel):
+    books: List[Dict]
+
+# Model for book response
+class BookResponse(BaseModel):
+    id: int
+    title: str
+    description: str
+    cover: str
+
+# Model for recommendations response
+class RecommendationsResponse(BaseModel):
+    recommendations: List[BookResponse]
+
+# Model for books response
+class BooksResponse(BaseModel):
+    books: List[BookResponse]
+
+# Existing BookGistResponse model (moved from agent/schemas)
 class BookGistResponse(RootModel[Dict[str, str]]):
     """
     Represents the expected JSON output format for book gists.
@@ -23,4 +40,4 @@ class BookGistResponse(RootModel[Dict[str, str]]):
         description="A dictionary where keys are book titles and values are their one-liner gists."
     )
 
-logger.debug("BookGistResponse schema loaded successfully")
+logger.debug("Models module loaded successfully")

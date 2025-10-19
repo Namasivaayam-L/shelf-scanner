@@ -5,3 +5,4 @@ __pycache__
 .env
 .next
 ref
+*.log

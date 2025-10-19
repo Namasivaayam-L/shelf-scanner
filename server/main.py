@@ -1,34 +1,76 @@
-from fastapi import FastAPI, UploadFile, File, Form
+from fastapi import FastAPI, UploadFile, File, Request
+from pydantic import BaseModel
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from PIL import Image
 import logging
 import io
 import base64
+import os
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 from langchain_core.messages import HumanMessage
 from agent.agent import agent
 from agent.post_process import post_process_llm_response
-import os # Import os
-from dotenv import load_dotenv # Import load_dotenv
+from dotenv import load_dotenv
 from logging_manager import get_logger
 
 load_dotenv() # Load environment variables from .env file
+
+# Initialize rate limiter
+limiter = Limiter(key_func=get_remote_address)
  
 app = FastAPI()
 
-# Add CORS middleware
+# Add security headers middleware
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.responses import Response
+import time
+
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        response = await call_next(request)
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["X-XSS-Protection"] = "1; mode=block"
+        response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+        return response
+
+app.add_middleware(SecurityHeadersMiddleware)
+
+# Set up rate limiting
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+# Add Trusted Host middleware
+trusted_hosts = os.getenv("TRUSTED_HOSTS", "*").split(",")
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=trusted_hosts)
+
+# Add CORS middleware with environment-driven settings
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost,http://localhost:3000,http://localhost:5173").split(",")
+allow_credentials = os.getenv("ALLOW_CREDENTIALS", "true").lower() == "true"
+allow_methods = os.getenv("ALLOW_METHODS", "*").split(",")
+allow_headers = os.getenv("ALLOW_HEADERS", "*").split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Frontend origins
-    allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
-    allow_headers=["*"],  # Allow all headers
+    allow_origins=allowed_origins,
+    allow_credentials=allow_credentials,
+    allow_methods=allow_methods,
+    allow_headers=allow_headers,
 )
 
 logger = get_logger()
 
+# Define Pydantic model for recommendations request
+class RecommendationsRequest(BaseModel):
+    books: list
+
 @app.post("/process-image")
-async def process_image(image: UploadFile = File(...)):
+@limiter.limit(os.getenv("PROCESS_IMAGE_RATE_LIMIT", "10/minute"))
+async def process_image(request: Request, image: UploadFile = File(...)):
     """
     Accepts an image file, processes the image, and returns a response from the agent.
     """
@@ -90,11 +132,13 @@ async def process_image(image: UploadFile = File(...)):
         return JSONResponse(content={"status": "error", "message": str(e)}, status_code=500)
 
 @app.post("/books/recommendations")
-async def get_recommendations(books: list):
+@limiter.limit(os.getenv("RECOMMENDATIONS_RATE_LIMIT", "5/minute"))
+async def get_recommendations(request: Request, books: RecommendationsRequest):
     """
     Returns recommendations based on provided books.
     """
     try:
+        books = books.books
         logger.info(f"Generating recommendations for {len(books)} books")
         
         # Create a prompt for the LLM to generate recommendations

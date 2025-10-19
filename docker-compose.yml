@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./server
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GEMINI_MODEL=${GEMINI_MODEL:-gemini-2.5-flash}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:5173,http://localhost:80}
+      - ALLOW_CREDENTIALS=${ALLOW_CREDENTIALS:-true}
+      - ALLOW_METHODS=${ALLOW_METHODS:-*}
+      - ALLOW_HEADERS=${ALLOW_HEADERS:-*}
+      - PROCESS_IMAGE_RATE_LIMIT=${PROCESS_IMAGE_RATE_LIMIT:-10/minute}
+      - PORT=${BACKEND_PORT:-8000}
+    volumes:
+      - ./server:/app
+      - /app/__pycache__
+    restart: unless-stopped
+    env_file:
+      - .env
+
+  frontend:
+    build:
+      context: ./client
+    ports:
+      - "${FRONTEND_PORT:-80}:80"
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:8000}
+    restart: unless-stopped
+    env_file:
+      - .env

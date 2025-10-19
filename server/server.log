@@ -37,3 +37,119 @@ ERROR:    [Errno 98] Address already in use
 2025-10-12 23:16:18 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
 2025-10-12 23:16:18 - INFO - logging_manager.py:58 - info - Building agent workflow
 2025-10-12 23:16:18 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-15 08:31:49 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-15 08:31:49 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-15 08:31:49 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-15 08:31:49 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-15 08:31:50 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-15 08:31:50 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-15 08:31:50 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-15 08:31:50 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-15 08:36:56 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-15 08:38:01 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-15 08:38:01 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-15 08:38:01 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-15 08:38:01 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-15 08:40:23 - INFO - logging_manager.py:58 - info - Current logging level is INFO
+2025-10-15 08:41:30 - INFO - logging_manager.py:58 - info - Received image: 32711.jpg (image/jpeg)
+2025-10-15 08:41:31 - INFO - logging_manager.py:58 - info - Image size: (612, 407) (width, height)
+2025-10-15 08:41:44 - INFO - logging_manager.py:58 - info - Successfully validated LLM response with Pydantic model
+2025-10-15 08:41:44 - INFO - logging_manager.py:58 - info - Successfully validated LLM response with Pydantic model
+2025-10-15 08:41:44 - INFO - logging_manager.py:58 - info - Agent response successfully retrieved.
+2025-10-15 09:01:13 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-15 09:01:13 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-15 09:01:13 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-15 09:01:13 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-15 09:07:51 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-15 09:07:51 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-15 09:07:51 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-15 09:07:51 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-19 23:36:56 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-19 23:36:56 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-19 23:36:56 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-19 23:36:56 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-19 23:39:36 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-19 23:39:36 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-19 23:39:36 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-19 23:39:36 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-19 23:39:38 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-19 23:39:38 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-19 23:39:38 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-19 23:39:38 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-19 23:40:28 - INFO - logging_manager.py:58 - info - Received image: PXL_20251011_183349763.jpg (image/jpeg)
+2025-10-19 23:40:28 - INFO - logging_manager.py:58 - info - Image size: (4032, 3024) (width, height)
+2025-10-19 23:41:08 - INFO - logging_manager.py:58 - info - Successfully validated LLM response with Pydantic model
+2025-10-19 23:41:08 - INFO - logging_manager.py:58 - info - Successfully validated LLM response with Pydantic model
+2025-10-19 23:41:08 - INFO - logging_manager.py:58 - info - Agent response successfully retrieved.
+2025-10-19 23:56:44 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-19 23:56:44 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-19 23:56:44 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-19 23:56:44 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-19 23:56:53 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-19 23:56:53 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-19 23:56:53 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-19 23:56:53 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-19 23:57:03 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-19 23:57:03 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-19 23:57:03 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-19 23:57:03 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-19 23:57:13 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-19 23:57:13 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-19 23:57:13 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-19 23:57:13 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-19 23:57:22 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-19 23:57:22 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-19 23:57:22 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-19 23:57:22 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-19 23:57:56 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-19 23:57:56 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-19 23:57:56 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-19 23:57:56 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-19 23:58:16 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-19 23:58:16 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-19 23:58:16 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-19 23:58:16 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-19 23:58:55 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-19 23:58:55 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-19 23:58:55 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-19 23:58:55 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-19 23:59:09 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-19 23:59:09 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-19 23:59:09 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-19 23:59:09 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-19 23:59:15 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-19 23:59:15 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-19 23:59:15 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-19 23:59:15 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-20 00:00:14 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-20 00:00:14 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-20 00:00:14 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-20 00:00:14 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-20 00:00:24 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-20 00:00:24 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-20 00:00:24 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-20 00:00:24 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-20 00:00:29 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-20 00:00:29 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-20 00:00:29 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-20 00:00:29 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-20 00:00:34 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-20 00:00:34 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-20 00:00:34 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-20 00:00:34 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-20 00:02:05 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-20 00:02:05 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-20 00:02:05 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-20 00:02:05 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-20 00:02:11 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-20 00:02:11 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-20 00:02:11 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-20 00:02:11 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-20 00:02:17 - INFO - logging_manager.py:58 - info - Initializing Gemini LLM model
+2025-10-20 00:02:17 - INFO - logging_manager.py:58 - info - Successfully read file: sys_prompt.md (1529 characters)
+2025-10-20 00:02:17 - INFO - logging_manager.py:58 - info - Building agent workflow
+2025-10-20 00:02:17 - INFO - logging_manager.py:58 - info - Compiling agent
+2025-10-20 00:02:30 - INFO - logging_manager.py:58 - info - Generating recommendations for 105 books
+2025-10-20 00:03:08 - INFO - logging_manager.py:58 - info - Successfully validated LLM response with Pydantic model
+2025-10-20 00:03:08 - INFO - logging_manager.py:58 - info - Successfully validated LLM response with Pydantic model
+2025-10-20 00:03:08 - INFO - logging_manager.py:58 - info - Received 105 recommendations

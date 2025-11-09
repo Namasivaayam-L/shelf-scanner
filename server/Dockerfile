@@ -3,10 +3,9 @@ FROM python:3.11-slim
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PYTHONPATH=/app
+    PYTHONUNBUFFERED=1
 
-# Set work directory
+# Set work directory to /app
 WORKDIR /app
 
 # Install system dependencies
@@ -22,7 +21,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Copy project
+# Copy the entire server directory contents to /app
 COPY . .
 
 # Create non-root user
@@ -31,7 +30,7 @@ RUN adduser --disabled-password --gecos '' appuser && \
 USER appuser
 
 # Expose port
-EXPOSE $PORT 8000
+EXPOSE 8000
 
 # Run the application
-CMD ["sh", "-c", "uvicorn main:app --host 0.0.0 --port ${PORT:-8000}"]
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"]

@@ -49,7 +49,7 @@ TRUSTED_HOSTS=localhost,127.0.0.1
 The easiest way to run the application is using Docker Compose:
 
 ```bash
-# Build and start the services
+# Build and start the services (production)
 docker-compose up --build
 
 # Or run in detached mode
@@ -59,6 +59,23 @@ docker-compose up --build -d
 The application will be available at:
 - Frontend: http://localhost
 - Backend API: http://localhost:8000
+
+## Development with Docker Watch
+
+For development with automatic reloading when you make code changes:
+
+```bash
+# Build and start the development services with file watching
+docker-compose -f docker-compose.dev.yml up --build
+
+# Or run in detached mode
+docker-compose -f docker-compose.dev.yml up --build -d
+```
+
+This setup provides:
+- Hot reloading for both frontend and backend
+- File watching to automatically reflect changes
+- Volume mounts to sync code changes between host and containers
 
 ## Local Development
 

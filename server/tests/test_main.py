@@ -9,7 +9,7 @@ from main import app
 import io
 from PIL import Image
 # Import logging manager
-from logging_manager import get_logger
+from config.logging_manager import get_logger
 
 # Create logger instance
 logger = get_logger()

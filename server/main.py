@@ -2,14 +2,14 @@ import logging, os
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
-from logging_manager import get_logger
+from config.logging_manager import get_logger
 
 from dotenv import load_dotenv
 load_dotenv() # Load environment variables from .env file
 
 from routes.image_processing import router as image_processing_router
 from routes.recommendations import router as recommendations_router
-from config import setup_middleware
+from config.config import setup_middleware
 
 # Initialize FastAPI app
 app = FastAPI()

@@ -2,7 +2,7 @@ import json
 import re
 from agent.schemas import BookGistResponse
 from typing import Union, Dict
-from logging_manager import get_logger
+from config.logging_manager import get_logger
 
 logger = get_logger()
 

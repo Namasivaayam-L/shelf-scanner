@@ -1,6 +1,6 @@
 from pydantic import RootModel, Field
 from typing import Dict
-from logging_manager import get_logger
+from config.logging_manager import get_logger
 
 logger = get_logger()
 logger.debug("Loading BookGistResponse schema")

@@ -1,6 +1,6 @@
 from pydantic import BaseModel, RootModel, Field
 from typing import Dict, List
-from logging_manager import get_logger
+from config.logging_manager import get_logger
 
 logger = get_logger()
 logger.debug("Loading models module")

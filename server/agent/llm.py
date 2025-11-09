@@ -1,6 +1,6 @@
 import os
 from langchain_google_genai import ChatGoogleGenerativeAI
-from logging_manager import get_logger
+from config.logging_manager import get_logger
 from dotenv import load_dotenv
 
 load_dotenv()

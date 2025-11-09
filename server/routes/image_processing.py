@@ -8,8 +8,8 @@ from langchain_core.messages import HumanMessage
 
 from agent.agent import agent
 from agent.post_process import post_process_llm_response
-from logging_manager import get_logger
-from models import BooksResponse
+from config.logging_manager import get_logger
+from models.models import BooksResponse
 
 # Initialize rate limiter
 limiter = Limiter(key_func=get_remote_address)

@@ -1,7 +1,7 @@
 from langgraph.graph import StateGraph, MessagesState, START, END
 from langchain_core.messages import HumanMessage
 from agent.nodes import llm_call
-from logging_manager import get_logger
+from config.logging_manager import get_logger
 
 logger = get_logger()
 

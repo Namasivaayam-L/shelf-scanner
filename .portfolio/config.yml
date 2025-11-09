@@ -1,0 +1,27 @@
+# .portfolio/config.yml
+name: Shelf Scanner
+slug: shelf-scanner
+description: >
+  A book identification and recommendation system that uses AI to analyze bookshelf images and provide personalized recommendations.
+tech_stack:
+  - LangChain
+  - LangGraph
+  - Gemini AI
+  - FastAPI
+  - TypeScript
+  - Vite
+  - React
+  - Python
+  - Tailwind CSS
+  - Docker
+tags:
+  - portfolio
+  - genai
+  - book-recommendation
+live_url: 
+repo_url: https://github.com/Namasivaayam-L/shelf-scanner
+thumbnail: https://raw.githubusercontent.com/Namasivaayam-L/shelf-scanner/main/.portfolio/cover.png
+readme_path: README.md
+created_at: 2025-09-18
+updated_at: 2025-10-21
+featured: true

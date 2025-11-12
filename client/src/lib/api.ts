@@ -19,9 +19,6 @@ export interface ApiResponse<T> {
   data?: T;
 }
 
-// Get API base URL from environment or default to localhost
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
-
 /**
  * Process an image to extract book information
  */
@@ -32,7 +29,7 @@ export const processImage = async (imageFile: File): Promise<ProcessedImageRespo
   formData.append('image', imageFile);
 
   try {
-    const response = await fetch(`${API_BASE_URL}/process-image`, {
+    const response = await fetch(`/api/process-image`, {
       method: 'POST',
       body: formData,
     });
@@ -59,7 +56,7 @@ export const getRecommendations = async (books: Book[]): Promise<Recommendations
   logger.info(`Getting recommendations for ${books.length} books`);
   
   try {
-    const response = await fetch(`${API_BASE_URL}/books/recommendations`, {
+    const response = await fetch(`/api/books/recommendations`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

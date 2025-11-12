@@ -29,8 +29,21 @@ if os.path.exists(static_dir):
 
 logger = get_logger()
 
+# Root endpoint - serve index.html or ping for health checks
+@app.get("/")
+@app.head("/")
+async def root():
+    """
+    Root endpoint. Serves index.html for GET requests (SPA) or responds to HEAD for health checks.
+    """
+    index_file = os.path.join(static_dir, "index.html")
+    if os.path.exists(index_file):
+        return FileResponse(index_file)
+    return {"status": "ok"}
+
 # Ping endpoint for health checks
 @app.get("/ping")
+@app.head("/ping")
 async def ping():
     """
     Simple ping endpoint for health checks.
@@ -78,6 +91,7 @@ async def get_logging_level():
 
 # SPA routing: serve index.html for all non-API routes
 @app.get("/{full_path:path}")
+@app.head("/{full_path:path}")
 async def serve_spa(full_path: str):
     """
     Serve the React SPA for all routes that are not API endpoints.

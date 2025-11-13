@@ -8,16 +8,15 @@ tech_stack:
   - LangGraph
   - Gemini AI
   - FastAPI
-  - TypeScript
   - Vite
-  - React
-  - Python
+  - TypeScript
   - Tailwind CSS
   - Docker
+  - Render
 tags:
-  - LangChain
-  - book-recommendation
-  - portfolio
+  - GenAI
+  - Full-Stack
+  - Rate Limiting
 live_url: https://shelf-scanner.onrender.com/
 repo_url: https://github.com/Namasivaayam-L/shelf-scanner
 thumbnail: https://raw.githubusercontent.com/Namasivaayam-L/shelf-scanner/main/.portfolio/cover.png
@@ -25,3 +24,4 @@ readme_path: README.md
 created_at: 2025-09-18
 updated_at: 2025-11-12
 featured: true
+is_active: true

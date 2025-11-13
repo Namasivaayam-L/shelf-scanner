@@ -15,9 +15,9 @@ tech_stack:
   - Tailwind CSS
   - Docker
 tags:
-  - portfolio
-  - genai
+  - LangChain
   - book-recommendation
+  - portfolio
 live_url: https://shelf-scanner.onrender.com/
 repo_url: https://github.com/Namasivaayam-L/shelf-scanner
 thumbnail: https://raw.githubusercontent.com/Namasivaayam-L/shelf-scanner/main/.portfolio/cover.png

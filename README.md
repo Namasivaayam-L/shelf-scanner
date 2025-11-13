@@ -13,7 +13,7 @@ A book identification and recommendation system that uses AI to analyze bookshel
 
 ## Prerequisites
 
-- Docker and Docker Compose
+- Docker
 - Node.js (for local development)
 - Python 3.8+ (for local development)
 

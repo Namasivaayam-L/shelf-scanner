@@ -24,8 +24,8 @@ COPY --from=frontend-build /app/client/dist ../client/dist
 RUN adduser --disabled-password --gecos '' appuser && chown -R appuser:appuser /app
 USER appuser
 
-# Expose port 8000
-EXPOSE 8000
+# Expose port 10000
+EXPOSE 10000
 
 # Start the FastAPI server
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "10000"]
